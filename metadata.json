@@ -1,0 +1,6 @@
+{
+  "name": "Forex Bank Pro - Automated Forex & EA Trading Platform",
+  "description": "Forex Bank Pro (FBP) is an automated forex trading platform offering institutional-grade Expert Advisor (EA) services, 24-hour market access, and advanced risk management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
