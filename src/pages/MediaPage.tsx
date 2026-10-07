@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Calendar, Clock, ArrowRight, X } from 'lucide-react';
+import { BookOpen, Calendar, Clock, ArrowRight, X, BarChart2 } from 'lucide-react';
 import { SITE_DATA, MediaArticle } from '../data/site';
 
 export const MediaPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [readingArticle, setReadingArticle] = useState<MediaArticle | null>(null);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   const categories = ['all', 'Algorithmic Trading', 'Market Structure', 'Risk Management'];
 
   const filteredArticles = activeCategory === 'all'
     ? SITE_DATA.mediaArticles
     : SITE_DATA.mediaArticles.filter((a) => a.category === activeCategory);
+
+  const handleImageError = (id: string) => {
+    setImageErrors((prev) => ({ ...prev, [id]: true }));
+  };
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-[#0B0B0B]">
@@ -50,58 +55,70 @@ export const MediaPage: React.FC = () => {
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.map((article) => (
-            <div
-              key={article.id}
-              className="rounded-3xl bg-[#141414] border border-[#242424] hover:border-[#B6F35A] overflow-hidden group transition-all duration-300 flex flex-col justify-between shadow-xl"
-            >
-              <div>
-                <div className="relative h-56 overflow-hidden bg-[#111111]">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 rounded-full bg-[#0B0B0B]/80 backdrop-blur-md text-[10px] font-bold text-[#B6F35A] border border-[#262626]">
-                      {article.category}
-                    </span>
+          {filteredArticles.map((article) => {
+            const hasError = imageErrors[article.id];
+
+            return (
+              <div
+                key={article.id}
+                className="rounded-3xl bg-[#141414] border border-[#242424] hover:border-[#B6F35A] overflow-hidden group transition-all duration-300 flex flex-col justify-between shadow-xl"
+              >
+                <div>
+                  <div className="relative h-56 overflow-hidden bg-[#111111]">
+                    {!hasError && article.image ? (
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        onError={() => handleImageError(article.id)}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[#1E2619] via-[#141414] to-[#0E0E0E] flex items-center justify-center p-6 text-center">
+                        <BarChart2 className="w-10 h-10 text-[#B6F35A]" />
+                      </div>
+                    )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute top-4 right-4 z-10">
+                      <span className="px-3 py-1 rounded-full bg-[#0B0B0B]/80 backdrop-blur-md text-[10px] font-bold text-[#B6F35A] border border-[#262626]">
+                        {article.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    {/* Clean unboxed metadata with separators */}
+                    <div className="flex items-center gap-2 text-xs text-zinc-500 mb-3">
+                      <span>{article.date}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{article.author}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{article.readTime}</span>
+                    </div>
+
+                    <h2 className="text-lg font-bold text-white group-hover:text-[#B6F35A] transition-colors mb-3 line-clamp-2">
+                      {article.title}
+                    </h2>
+
+                    <p className="text-xs text-zinc-400 line-clamp-3 leading-relaxed mb-6">
+                      {article.excerpt}
+                    </p>
                   </div>
                 </div>
 
-                <div className="p-6">
-                  {/* Clean unboxed metadata with separators */}
-                  <div className="flex items-center gap-2 text-xs text-zinc-500 mb-3">
-                    <span>{article.date}</span>
-                    <span aria-hidden="true">·</span>
-                    <span>{article.author}</span>
-                    <span aria-hidden="true">·</span>
-                    <span>{article.readTime}</span>
-                  </div>
-
-                  <h2 className="text-lg font-bold text-white group-hover:text-[#B6F35A] transition-colors mb-3 line-clamp-2">
-                    {article.title}
-                  </h2>
-
-                  <p className="text-xs text-zinc-400 line-clamp-3 leading-relaxed mb-6">
-                    {article.excerpt}
-                  </p>
+                <div className="px-6 pb-6 pt-2 border-t border-[#222222]">
+                  <button
+                    onClick={() => setReadingArticle(article)}
+                    className="inline-flex items-center gap-2 text-xs font-bold text-[#B6F35A] hover:underline"
+                  >
+                    <span>Read Article Analysis</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
-
-              <div className="px-6 pb-6 pt-2 border-t border-[#222222]">
-                <button
-                  onClick={() => setReadingArticle(article)}
-                  className="inline-flex items-center gap-2 text-xs font-bold text-[#B6F35A] hover:underline"
-                >
-                  <span>Read Article Analysis</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Reading Article Modal */}
@@ -137,7 +154,7 @@ export const MediaPage: React.FC = () => {
                   <span>{readingArticle.readTime}</span>
                 </div>
 
-                <div className="mb-6 rounded-2xl overflow-hidden max-h-64">
+                <div className="mb-6 rounded-2xl overflow-hidden max-h-64 bg-[#111111]">
                   <img
                     src={readingArticle.image}
                     alt={readingArticle.title}

@@ -1,3 +1,7 @@
+import tradingPlatformImg from '../assets/images/trading_platform_visual_1791376147931.jpg';
+import mediaAlgorithmicTradingImg from '../assets/images/media_algorithmic_trading_1791376165410.jpg';
+import mediaMarketAnalysisImg from '../assets/images/media_market_analysis_1791376180578.jpg';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -377,7 +381,7 @@ export const SITE_DATA = {
       author: "FBP Quantitative Research",
       excerpt: "Why human psychology remains the single greatest bottleneck in financial markets, and how automated rules-based systems eliminate cognitive bias during high-volatility news sessions.",
       content: "Trading in financial markets involves a wide range of strategies that traders employ to make informed decisions. From swing trading to intraday momentum, human decision fatigue frequently leads to premature profit taking and catastrophic loss aversion. Automated Expert Advisors adhere strictly to statistical probabilities and programmed risk parameters, protecting capital from emotional derailment.",
-      image: "/src/assets/images/trading_platform_visual_1791376147931.jpg"
+      image: tradingPlatformImg
     },
     {
       id: "art-2",
@@ -389,7 +393,7 @@ export const SITE_DATA = {
       author: "FBP Macro Desk",
       excerpt: "Global forex markets never sleep. Exploring how automated execution allows retail investors to capitalize on European and Asian liquidity overlaps while maintaining disciplined risk.",
       content: "Unlike traditional equity exchanges bound to local operating hours, the foreign exchange market trades seamlessly across Wellington, Tokyo, London, and New York. By deploying algorithmic Expert Advisors hosted on low-latency Equinix data centers, traders capture key price movements regardless of their time zone or daily schedule.",
-      image: "/src/assets/images/media_algorithmic_trading_1791376165410.jpg"
+      image: mediaAlgorithmicTradingImg
     },
     {
       id: "art-3",
@@ -401,7 +405,7 @@ export const SITE_DATA = {
       author: "FBP Risk Committee",
       excerpt: "Deep dive into institutional capital preservation models: how hard stop-losses, portfolio correlation filters, and dynamic volatility scaling protect long-term account survival.",
       content: "Leverage can amplify both gains and losses. Sustainable long-term trading is not about predicting market directions with 100% certainty, but about asymmetric risk-to-reward ratios. At Forex Bank Pro, risk parameters are hardcoded into every EA algorithm before execution begins.",
-      image: "/src/assets/images/media_market_analysis_1791376180578.jpg"
+      image: mediaMarketAnalysisImg
     }
   ] as MediaArticle[],
 
